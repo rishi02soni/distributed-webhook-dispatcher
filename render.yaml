@@ -1,0 +1,45 @@
+databases:
+  - name: webhook-dispatcher-db
+    plan: free
+    databaseName: webhook_dispatcher
+    user: webhook_dispatcher
+
+services:
+  - type: web
+    name: webhook-dispatcher-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: webhook-dispatcher-db
+          property: connectionString
+      - key: DISPATCH_API_KEY
+        generateValue: true
+      - key: ALLOW_PRIVATE_DESTINATIONS
+        value: "false"
+
+  - type: worker
+    name: webhook-dispatcher-worker
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm run worker
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: webhook-dispatcher-db
+          property: connectionString
+      - key: DISPATCH_API_KEY
+        fromService:
+          type: web
+          name: webhook-dispatcher-api
+          envVarKey: DISPATCH_API_KEY
+      - key: ALLOW_PRIVATE_DESTINATIONS
+        value: "false"
