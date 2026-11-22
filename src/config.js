@@ -14,6 +14,7 @@ const config = {
   port: numberFromEnv("PORT", 3000),
   databaseUrl: process.env.DATABASE_URL,
   apiKey: process.env.DISPATCH_API_KEY || "",
+  reviewerApiKey: process.env.REVIEWER_API_KEY || "",
   allowPrivateDestinations: process.env.ALLOW_PRIVATE_DESTINATIONS === "true",
   workerPollIntervalMs: numberFromEnv("WORKER_POLL_INTERVAL_MS", 500),
   webhookTimeoutMs: numberFromEnv("WEBHOOK_TIMEOUT_MS", 10000),
