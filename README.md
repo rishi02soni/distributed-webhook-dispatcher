@@ -955,6 +955,46 @@ It demonstrates important backend engineering concepts used in event-driven syst
 
 ---
 
+## Evaluation Access
+
+The live API is protected using Bearer Token authentication.
+
+A temporary reviewer API key is provided privately to
+the hiring team for testing.
+
+### Live API
+
+https://webhook-dispatcher-api-3gbc.onrender.com
+
+### Endpoints
+
+POST /api/webhooks/dispatch
+GET /api/webhooks/jobs/:id
+GET /health
+
+### Authentication
+
+In Postman:
+1. Open the Authorization tab.
+2. Select Bearer Token.
+3. Enter the reviewer API key provided by email.
+4. Send the request.
+
+The health endpoint does not require authentication.
+
+### Verified Live Test
+
+- POST dispatch returned 202 Accepted.
+- Background worker delivered the webhook.
+- GET job status returned 200 OK.
+- Delivery status: delivered.
+- Destination response: 200.
+
+Note: The free-tier Render instance may take extra time
+to respond after inactivity.
+
+---
+
 ## Author
 
 **Rishi Soni**
